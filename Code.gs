@@ -3,14 +3,14 @@
  * @return {CardService.Card} The card to show the user.
  */
 function onHomepage(e) {
-  return createSelectionCard(e);
+  return createSelectionCard();
 }
 
 /**
  * Main function to generate the main card.
  * @return {CardService.Card} The card to show to the user.
  */
-function createSelectionCard(e, originLanguage, destinationLanguage, inputText, outputText) {
+function createSelectionCard() {
   return CardService
     .newCardBuilder()
     .addSection(
@@ -28,10 +28,7 @@ function createSelectionCard(e, originLanguage, destinationLanguage, inputText, 
             .setOnClickAction(CardService.newAction().setFunctionName('singleQuotesToDoubleQuotes')))
           .addButton(CardService.newTextButton()
             .setText('Wrap Italics')
-            .setOnClickAction(CardService.newAction().setFunctionName('wrapItalicsWithTildes')))
-          
-            
-            ))
+            .setOnClickAction(CardService.newAction().setFunctionName('wrapItalicsWithTildes')))))
     .addSection(
       CardService.newCardSection()
         .setHeader('Targeted Actions')
@@ -147,8 +144,13 @@ function convertToEpisode() {
     if (textEl.findText(correctEpisodeText) == null) {
       textEl.replaceText(episodeRegex, correctEpisodeText);
     }
+
+    var headingStyle = {};
+    headingStyle[DocumentApp.Attribute.HEADING] = DocumentApp.ParagraphHeading.HEADING1;
+    textEl.getParent().setAttributes(headingStyle);
   };
 
+  setDocumentFormatting();
 }
 
 function getEpisodeRanges() {
