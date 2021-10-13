@@ -5,15 +5,15 @@
 function createMainCard() {
   return CardService
     .newCardBuilder()
-    .addSection(buildDocumentActionsSection())
-    .addSection(buildTargetedActionsSection())
-    .addSection(buildParagraphWordCountSection())
+    .addSection(buildOneOffActionsSection())
+    .addSection(buildEpisodesSection())
     .build();
 }
 
-function buildDocumentActionsSection() {
+function buildOneOffActionsSection() {
   return CardService.newCardSection()
-    .setHeader('Document Actions')
+    .setCollapsible(true)
+    .setHeader('One-Off Actions')
     .addWidget(CardService.newButtonSet()
       .addButton(CardService.newTextButton()
         .setText('The Works')
@@ -26,19 +26,24 @@ function buildDocumentActionsSection() {
         .setOnClickAction(CardService.newAction().setFunctionName('singleQuotesToDoubleQuotes')))
       .addButton(CardService.newTextButton()
         .setText('Wrap Italics')
-        .setOnClickAction(CardService.newAction().setFunctionName('wrapItalicsWithTildes'))));
+        .setOnClickAction(CardService.newAction().setFunctionName('wrapItalicsWithTildes')))
+      .addButton(CardService.newTextButton()
+        .setText('Mark Series')
+        .setOnClickAction(CardService.newAction().setFunctionName('convertToSeries'))));
 }
 
-function buildTargetedActionsSection() {
+function buildEpisodesSection() {
   return CardService.newCardSection()
-    .setHeader('Targeted Actions')
+    .setHeader('Episodes')
+    .addWidget(CardService.newTextInput()
+      .setFieldName('episodeStartFrom')
+      .setTitle('Start From')
+      .setValue('1'))
+    .addWidget(CardService.newDivider())
     .addWidget(CardService.newButtonSet()
       .addButton(CardService.newTextButton()
-        .setText('Episode')
-        .setOnClickAction(CardService.newAction().setFunctionName('convertToEpisode')))
-      .addButton(CardService.newTextButton()
-        .setText('Series')
-        .setOnClickAction(CardService.newAction().setFunctionName('convertToSeries'))));
+        .setText('Mark Episode')
+        .setOnClickAction(CardService.newAction().setFunctionName('convertToEpisode'))));
 }
 
 function buildParagraphWordCountSection() {

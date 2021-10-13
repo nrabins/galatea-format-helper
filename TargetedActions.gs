@@ -1,6 +1,14 @@
 const episodeRegex = 'EPISODE: \\d+: ';
 
-function convertToEpisode() {
+function convertToEpisode(e) {
+
+  console.log(e);
+
+  let startFrom = parseInt(e.formInputs.episodeStartFrom || 1);
+  if (isNaN(startFrom)) {
+    startFrom = 1;
+  }
+
   var cursor = DocumentApp.getActiveDocument().getCursor();
   if (cursor) {
     var element = cursor.getElement();
@@ -13,7 +21,7 @@ function convertToEpisode() {
     var range = ranges[i];
     var textEl = range.getElement().asText();
 
-    var correctEpisodeText = `EPISODE: ${i + 1}: `;
+    var correctEpisodeText = `EPISODE: ${i + startFrom}: `;
     if (textEl.findText(correctEpisodeText) == null) {
       textEl.replaceText(episodeRegex, correctEpisodeText);
     }
